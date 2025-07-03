@@ -13,7 +13,6 @@ public class WordFilter {
     }
 
     public int f(String prefix, String suffix) {
-        suffix = new StringBuilder(suffix).reverse().toString();
         List<Integer> prefixMatches = prefixTrie.search(prefix);
         List<Integer> suffixMatches = suffixTrie.search(suffix);
 

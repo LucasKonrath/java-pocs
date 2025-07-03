@@ -15,14 +15,14 @@ public class Trie {
         this(words, false); // Default to normal order
     }
 
-    protected Trie(List<String> words, boolean reverse) {
+    protected Trie(List<String> words, boolean suffix) {
         this(); // Ensure children is initialized
         for(int index = 0; index < words.size(); index++) {
 
             this.indexes.add(index);
             String word = words.get(index);
 
-            if (reverse) {
+            if (suffix) {
                 word = new StringBuilder(word).reverse().toString();
             }
             Trie node = this;
@@ -37,9 +37,16 @@ public class Trie {
         }
     }
 
-    List<Integer> search(String prefix) {
+    List<Integer> search(String query) {
+        return search(query, false); // Default to normal prefix search
+    }
+
+    List<Integer> search(String query, boolean suffix) {
         Trie node = this;
-        for (char ch : prefix.toCharArray()){
+        if(suffix) {
+            query = new StringBuilder(query).reverse().toString(); // Reverse for suffix search
+        }
+        for (char ch : query.toCharArray()){
             int idx = ch - 'a';
 
             if (node.children[idx] == null) {
