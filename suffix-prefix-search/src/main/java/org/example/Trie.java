@@ -7,7 +7,7 @@ public class Trie {
     private Trie[] children;
     private List<Integer> indexes = new ArrayList<>();
 
-    public Trie(){
+    private Trie(){
         this.children = new Trie[26]; // Assuming only lowercase letters a-z
     }
 
@@ -15,7 +15,7 @@ public class Trie {
         this(words, false); // Default to normal order
     }
 
-    public Trie(List<String> words, boolean reverse) {
+    protected Trie(List<String> words, boolean reverse) {
         this(); // Ensure children is initialized
         for(int index = 0; index < words.size(); index++) {
 

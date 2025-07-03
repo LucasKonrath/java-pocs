@@ -5,11 +5,11 @@ import java.util.List;
 public class WordFilter {
 
     private Trie prefixTrie;
-    private Trie suffixTrie;
+    private SuffixTrie suffixTrie;
 
     public WordFilter(List<String> words) {
         this.prefixTrie = new Trie(words);
-        this.suffixTrie = new Trie(words, true);
+        this.suffixTrie = new SuffixTrie(words);
     }
 
     public int f(String prefix, String suffix) {
