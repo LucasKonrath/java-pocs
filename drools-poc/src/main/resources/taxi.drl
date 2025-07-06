@@ -1,0 +1,11 @@
+global org.example.Fare rideFare;
+import org.example.TaxiRide;
+dialect  "mvel"
+
+rule "Calculate Taxi Fare - Scenario 1"
+    when
+        taxiRideInstance:TaxiRide(isNightSurcharge == false && distanceInMile < 10)
+    then
+      	rideFare.setNightSurcharge(0L);
+       	rideFare.setRideFare(70L);
+end
