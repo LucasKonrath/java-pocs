@@ -1,61 +1,46 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Trie {
-    private Trie[] children;
-    private List<Integer> indexes = new ArrayList<>();
+    private final HashMap<Character, Trie> children;
+    private final Set<Integer> indexes;
 
     private Trie(){
-        this.children = new Trie[26]; // Assuming only lowercase letters a-z
+        this.children = new HashMap<>();
+        this.indexes = new HashSet<>();
     }
 
-    public Trie(List<String> words){
-        this(words, false); // Default to normal order
-    }
-
-    protected Trie(List<String> words, boolean suffix) {
+    protected Trie(List<String> words) {
         this(); // Ensure children is initialized
         for(int index = 0; index < words.size(); index++) {
 
             this.indexes.add(index);
             String word = words.get(index);
 
-            if (suffix) {
-                word = new StringBuilder(word).reverse().toString();
-            }
             Trie node = this;
             for (char c : word.toCharArray()) {
-                int idx = c - 'a';
-                if (node.children[idx] == null) {
-                    node.children[idx] = new Trie();
+                if (node.children.get(c) == null) {
+                    node.children.put(c, new Trie());
                 }
-                node = node.children[idx];
+                node = node.children.get(c);
                 node.indexes.add(index);
             }
         }
     }
 
-    List<Integer> search(String query) {
-        return search(query, false); // Default to normal prefix search
-    }
-
-    List<Integer> search(String query, boolean suffix) {
+    Set<Integer> search(String query) {
         Trie node = this;
-        if(suffix) {
-            query = new StringBuilder(query).reverse().toString(); // Reverse for suffix search
-        }
-        for (char ch : query.toCharArray()){
-            int idx = ch - 'a';
 
-            if (node.children[idx] == null) {
-                return new ArrayList<>(); // No matches found
+        for (char ch : query.toCharArray()){
+
+            if (node.children.get(ch) == null) {
+                return new HashSet<>(); // No matches found
             }
 
-            node = node.children[idx];
+            node = node.children.get(ch);
         }
-        return node.indexes;
+        return new HashSet<>(node.indexes); // to avoid returning the same reference
     }
 }
 
