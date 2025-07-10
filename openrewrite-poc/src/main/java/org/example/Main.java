@@ -1,17 +1,30 @@
-package org.example;
+package org.example;;;;import java.net.URL;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
+        String first = list.get(0);
+        list.add(2, "d");
+        list.remove(1);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+
+        Locale locale = new Locale("en", "US");
+        
     }
 }
+
+class Foo {
+    void bar() {
+        Thread.currentThread().stop();
+    }
+}
+class Test {
+    void urlConstructor(String spec) throws Exception {
+        URL url1 = new URL(spec);
+    }
+}
+
+
