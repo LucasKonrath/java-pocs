@@ -12,19 +12,9 @@ public class Main {
 
 
         Locale locale = new Locale("en", "US");
-        
+
     }
 }
 
-class Foo {
-    void bar() {
-        Thread.currentThread().stop();
-    }
-}
-class Test {
-    void urlConstructor(String spec) throws Exception {
-        URL url1 = new URL(spec);
-    }
-}
 
 
