@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperSQL POC - User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"] {
+            width: 200px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+        }
+        .api-info {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HyperSQL POC - User Management System</h1>
+        <p>This POC demonstrates Spring Boot integration with HyperSQL database for CRUD operations.</p>
+
+        <div class="api-info">
+            <h3>Database Information</h3>
+            <p><strong>Database:</strong> HyperSQL (In-Memory)</p>
+            <p><strong>Connection URL:</strong> jdbc:hsqldb:mem:testdb</p>
+            <p><strong>Total Users:</strong> <span id="userCount">Loading...</span></p>
+        </div>
+
+        <div class="section">
+            <h2>Create New User</h2>
+            <form id="createUserForm">
+                <div class="form-group">
+                    <label>Username:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>First Name:</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" id="lastName" required>
+                </div>
+                <button type="submit">Create User</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Search Users</h2>
+            <div class="form-group">
+                <label>Search:</label>
+                <input type="text" id="searchTerm" placeholder="Enter first or last name">
+                <button onclick="searchUsers()">Search</button>
+                <button onclick="loadAllUsers()">Show All</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Users List</h2>
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Available API Endpoints</h2>
+            <ul>
+                <li><strong>GET</strong> /api/users - Get all users</li>
+                <li><strong>GET</strong> /api/users/{id} - Get user by ID</li>
+                <li><strong>GET</strong> /api/users/username/{username} - Get user by username</li>
+                <li><strong>POST</strong> /api/users - Create new user</li>
+                <li><strong>PUT</strong> /api/users/{id} - Update user</li>
+                <li><strong>DELETE</strong> /api/users/{id} - Delete user</li>
+                <li><strong>GET</strong> /api/users/search/firstname/{firstName} - Search by first name</li>
+                <li><strong>GET</strong> /api/users/search/lastname/{lastName} - Search by last name</li>
+                <li><strong>GET</strong> /api/users/count - Get total user count</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Load all users when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllUsers();
+            loadUserCount();
+        });
+
+        // Create user form submission
+        document.getElementById('createUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            createUser();
+        });
+
+        function createUser() {
+            const user = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value
+            };
+
+            fetch('/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('User created successfully!');
+                document.getElementById('createUserForm').reset();
+                loadAllUsers();
+                loadUserCount();
+            })
+            .catch(error => {
+                alert('Error creating user: ' + error.message);
+            });
+        }
+
+        function loadAllUsers() {
+            fetch('/api/users')
+                .then(response => response.json())
+                .then(users => {
+                    displayUsers(users);
+                })
+                .catch(error => {
+                    console.error('Error loading users:', error);
+                });
+        }
+
+        function loadUserCount() {
+            fetch('/api/users/count')
+                .then(response => response.json())
+                .then(count => {
+                    document.getElementById('userCount').textContent = count;
+                })
+                .catch(error => {
+                    console.error('Error loading user count:', error);
+                });
+        }
+
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchTerm').value;
+            if (!searchTerm) {
+                loadAllUsers();
+                return;
+            }
+
+            // Search by first name and last name
+            Promise.all([
+                fetch(`/api/users/search/firstname/${searchTerm}`).then(r => r.json()),
+                fetch(`/api/users/search/lastname/${searchTerm}`).then(r => r.json())
+            ])
+            .then(([firstNameResults, lastNameResults]) => {
+                // Combine and deduplicate results
+                const allResults = [...firstNameResults, ...lastNameResults];
+                const uniqueResults = allResults.filter((user, index, self) =>
+                    index === self.findIndex(u => u.id === user.id)
+                );
+                displayUsers(uniqueResults);
+            })
+            .catch(error => {
+                console.error('Error searching users:', error);
+            });
+        }
+
+        function displayUsers(users) {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.firstName}</td>
+                    <td>${user.lastName}</td>
+                    <td>${new Date(user.createdAt).toLocaleString()}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteUser(${user.id})">Delete</button>
+                    </td>
+                `;
+            });
+        }
+
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                fetch(`/api/users/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('User deleted successfully!');
+                        loadAllUsers();
+                        loadUserCount();
+                    } else {
+                        alert('Error deleting user');
+                    }
+                })
+                .catch(error => {
+                    alert('Error deleting user: ' + error.message);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
