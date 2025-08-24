@@ -51,24 +51,24 @@ class HypersqlPocApplicationTests {
 
     @Test
     void testUserRepositoryQueries() {
-        User user1 = new User("testuser1", "test1@test.com", "TestAlice", "Johnson");
-        User user2 = new User("testuser2", "test2@test.com", "TestBob", "Johnson");
-        User user3 = new User("testuser3", "test3@test.com", "TestCharlie", "Smith");
+        User user1 = new User("uniquetest1", "unique1@test.com", "UniqueAlice", "TestJohnson");
+        User user2 = new User("uniquetest2", "unique2@test.com", "UniqueBob", "TestJohnson");
+        User user3 = new User("uniquetest3", "unique3@test.com", "UniqueCharlie", "TestSmith");
 
         userRepository.saveAll(List.of(user1, user2, user3));
 
-        Optional<User> foundUser = userRepository.findByUsername("testuser1");
+        Optional<User> foundUser = userRepository.findByUsername("uniquetest1");
         assertTrue(foundUser.isPresent());
-        assertEquals("TestAlice", foundUser.get().getFirstName());
+        assertEquals("UniqueAlice", foundUser.get().getFirstName());
 
-        Optional<User> foundByEmail = userRepository.findByEmail("test2@test.com");
+        Optional<User> foundByEmail = userRepository.findByEmail("unique2@test.com");
         assertTrue(foundByEmail.isPresent());
-        assertEquals("TestBob", foundByEmail.get().getFirstName());
+        assertEquals("UniqueBob", foundByEmail.get().getFirstName());
 
-        List<User> aliceUsers = userRepository.findByFirstNameContainingIgnoreCase("testalice");
+        List<User> aliceUsers = userRepository.findByFirstNameContainingIgnoreCase("uniquealice");
         assertEquals(1, aliceUsers.size());
 
-        List<User> johnsonUsers = userRepository.findByLastNameContainingIgnoreCase("johnson");
+        List<User> johnsonUsers = userRepository.findByLastNameContainingIgnoreCase("testjohnson");
         assertEquals(2, johnsonUsers.size());
 
         long userCount = userRepository.countAllUsers();

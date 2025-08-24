@@ -90,6 +90,8 @@
             <p><strong>Database:</strong> HyperSQL (In-Memory)</p>
             <p><strong>Connection URL:</strong> jdbc:hsqldb:mem:testdb</p>
             <p><strong>Total Users:</strong> <span id="userCount">Loading...</span></p>
+            <p><strong>HAL Explorer:</strong> <a href="/api/rest/explorer" target="_blank">Open HAL Explorer</a></p>
+            <p><strong>Spring Data REST API:</strong> <a href="/api/rest" target="_blank">Browse REST API</a></p>
         </div>
 
         <div class="section">
@@ -147,6 +149,7 @@
 
         <div class="section">
             <h2>Available API Endpoints</h2>
+            <h3>Custom REST API</h3>
             <ul>
                 <li><strong>GET</strong> /api/users - Get all users</li>
                 <li><strong>GET</strong> /api/users/{id} - Get user by ID</li>
@@ -157,6 +160,21 @@
                 <li><strong>GET</strong> /api/users/search/firstname/{firstName} - Search by first name</li>
                 <li><strong>GET</strong> /api/users/search/lastname/{lastName} - Search by last name</li>
                 <li><strong>GET</strong> /api/users/count - Get total user count</li>
+            </ul>
+
+            <h3>Spring Data REST API (HATEOAS)</h3>
+            <ul>
+                <li><strong>GET</strong> /api/rest/users - Get all users (paginated, HATEOAS)</li>
+                <li><strong>GET</strong> /api/rest/users/{id} - Get user by ID</li>
+                <li><strong>POST</strong> /api/rest/users - Create new user</li>
+                <li><strong>PUT</strong> /api/rest/users/{id} - Update user</li>
+                <li><strong>PATCH</strong> /api/rest/users/{id} - Partial update user</li>
+                <li><strong>DELETE</strong> /api/rest/users/{id} - Delete user</li>
+                <li><strong>GET</strong> /api/rest/users/search - Discover search endpoints</li>
+                <li><strong>GET</strong> /api/rest/users/search/findByUsername?username={username}</li>
+                <li><strong>GET</strong> /api/rest/users/search/findByEmail?email={email}</li>
+                <li><strong>GET</strong> /api/rest/users/search/findByFirstNameContainingIgnoreCase?firstName={firstName}</li>
+                <li><strong>GET</strong> /api/rest/users/search/findByLastNameContainingIgnoreCase?lastName={lastName}</li>
             </ul>
         </div>
     </div>
@@ -190,7 +208,7 @@
                 body: JSON.stringify(user)
             })
             .then(response => response.json())
-            .then(data => {
+            .then data => {
                 alert('User created successfully!');
                 document.getElementById('createUserForm').reset();
                 loadAllUsers();
@@ -203,7 +221,7 @@
 
         function loadAllUsers() {
             fetch('/api/users')
-                .then(response => response.json())
+                .then response => response.json())
                 .then(users => {
                     displayUsers(users);
                 })
