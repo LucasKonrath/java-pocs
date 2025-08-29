@@ -173,3 +173,4 @@ If mutation tests fail to run:
 4. Review target class patterns in configuration
 
 This POC demonstrates how mutation testing can reveal the true effectiveness of your test suite beyond simple line coverage metrics.
+# Testing workflow trigger
