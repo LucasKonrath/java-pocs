@@ -10,6 +10,9 @@ on:
 jobs:
   mutation-testing:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pit-poc
 
     steps:
     - name: Checkout code
@@ -27,7 +30,7 @@ jobs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        key: ${{ runner.os }}-gradle-${{ hashFiles('pit-poc/**/*.gradle*', 'pit-poc/**/gradle-wrapper.properties') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
 
@@ -42,7 +45,7 @@ jobs:
       if: success() || failure()
       with:
         name: JUnit Test Results
-        path: build/test-results/test/*.xml
+        path: pit-poc/build/test-results/test/*.xml
         reporter: java-junit
 
     - name: Run PIT mutation testing
@@ -94,8 +97,8 @@ jobs:
       with:
         name: pit-mutation-testing-reports
         path: |
-          build/reports/pitest/
-          build/reports/tests/
+          pit-poc/build/reports/pitest/
+          pit-poc/build/reports/tests/
         retention-days: 30
 
     - name: Upload test results
@@ -103,7 +106,7 @@ jobs:
       if: always()
       with:
         name: test-results
-        path: build/test-results/
+        path: pit-poc/build/test-results/
         retention-days: 30
 
     - name: Comment PR with mutation results
@@ -118,7 +121,7 @@ jobs:
           
           try {
             // Check if mutation report exists
-            const reportPath = 'build/reports/pitest/mutations.xml';
+            const reportPath = 'pit-poc/build/reports/pitest/mutations.xml';
             if (fs.existsSync(reportPath)) {
               const reportContent = fs.readFileSync(reportPath, 'utf8');
               
