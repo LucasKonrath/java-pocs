@@ -3,9 +3,19 @@ name: Mutation Testing with PIT
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - 'pit-poc/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'pit-poc/**'
   workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+  statuses: write
 
 jobs:
   mutation-testing:
