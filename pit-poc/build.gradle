@@ -11,7 +11,7 @@ description = 'pit-poc'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(23)
     }
 }
 
@@ -38,3 +38,4 @@ pitest {
     junit5PluginVersion = '1.2.1'
     pitestVersion = '1.16.1'
 }
+
