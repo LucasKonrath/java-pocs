@@ -36,4 +36,5 @@ pitest {
     timestampedReports = false
     mutators = ['DEFAULTS']
     junit5PluginVersion = '1.2.1'
+    pitestVersion = '1.16.1'
 }
