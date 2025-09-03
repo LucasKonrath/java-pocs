@@ -183,7 +183,7 @@ public class BookService {
     /**
      * Get books count by author (demonstrates GROUP BY and COUNT)
      */
-    public List<Record> getBooksCountByAuthor() {
+    public Result<Record> getBooksCountByAuthor() {
         return dsl.select(
             field("authors.first_name"),
             field("authors.last_name"),
@@ -200,15 +200,15 @@ public class BookService {
     /**
      * Get average book price by publication decade (demonstrates complex aggregation)
      */
-    public List<Record> getAveragePriceByDecade() {
+    public Result<Record> getAveragePriceByDecade() {
         return dsl.select(
-            field("publication_year").div(10).mul(10).as("decade"),
-            avg(field("price")).as("average_price"),
+            field("publication_year", Integer.class).div(10).mul(10).as("decade"),
+            avg(field("price", BigDecimal.class)).as("average_price"),
             count().as("book_count")
         )
         .from(table("books"))
         .where(field("price").isNotNull())
-        .groupBy(field("publication_year").div(10).mul(10))
+        .groupBy(field("publication_year", Integer.class).div(10).mul(10))
         .orderBy(field("decade"))
         .fetch();
     }

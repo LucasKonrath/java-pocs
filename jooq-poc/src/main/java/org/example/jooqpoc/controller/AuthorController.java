@@ -3,6 +3,7 @@ package org.example.jooqpoc.controller;
 import org.example.jooqpoc.model.Author;
 import org.example.jooqpoc.service.AuthorService;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +62,8 @@ public class AuthorController {
      * GET /api/authors/stats - Get detailed author statistics with book counts
      */
     @GetMapping("/stats")
-    public ResponseEntity<List<Record>> getAuthorStatistics() {
-        List<Record> stats = authorService.getAuthorStatistics();
+    public ResponseEntity<Result<Record>> getAuthorStatistics() {
+        Result<Record> stats = authorService.getAuthorStatistics();
         return ResponseEntity.ok(stats);
     }
 
@@ -70,8 +71,8 @@ public class AuthorController {
      * GET /api/authors/prolific?minBooks={minBookCount} - Find most prolific authors
      */
     @GetMapping("/prolific")
-    public ResponseEntity<List<Record>> getMostProlificAuthors(@RequestParam int minBooks) {
-        List<Record> authors = authorService.findMostProlificAuthors(minBooks);
+    public ResponseEntity<Result<Record>> getMostProlificAuthors(@RequestParam int minBooks) {
+        Result<Record> authors = authorService.findMostProlificAuthors(minBooks);
         return ResponseEntity.ok(authors);
     }
 

@@ -3,6 +3,7 @@ package org.example.jooqpoc.controller;
 import org.example.jooqpoc.model.Book;
 import org.example.jooqpoc.service.BookService;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -110,8 +111,8 @@ public class BookController {
      * GET /api/books/stats/by-author - Get book count statistics by author
      */
     @GetMapping("/stats/by-author")
-    public ResponseEntity<List<Record>> getBookCountByAuthor() {
-        List<Record> stats = bookService.getBooksCountByAuthor();
+    public ResponseEntity<Result<Record>> getBookCountByAuthor() {
+        Result<Record> stats = bookService.getBooksCountByAuthor();
         return ResponseEntity.ok(stats);
     }
 
@@ -119,8 +120,8 @@ public class BookController {
      * GET /api/books/stats/by-decade - Get average price statistics by decade
      */
     @GetMapping("/stats/by-decade")
-    public ResponseEntity<List<Record>> getAveragePriceByDecade() {
-        List<Record> stats = bookService.getAveragePriceByDecade();
+    public ResponseEntity<Result<Record>> getAveragePriceByDecade() {
+        Result<Record> stats = bookService.getAveragePriceByDecade();
         return ResponseEntity.ok(stats);
     }
 }

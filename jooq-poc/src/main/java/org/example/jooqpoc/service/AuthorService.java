@@ -2,10 +2,12 @@ package org.example.jooqpoc.service;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.example.jooqpoc.model.Author;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,7 +68,7 @@ public class AuthorService {
     /**
      * Get author statistics with book counts (demonstrates complex aggregation with LEFT JOIN)
      */
-    public List<Record> getAuthorStatistics() {
+    public Result<? extends Record> getAuthorStatistics() {
         return dsl.select(
                 field("authors.id"),
                 field("authors.first_name"),
@@ -96,7 +98,7 @@ public class AuthorService {
     /**
      * Find most prolific authors (demonstrates HAVING clause)
      */
-    public List<Record> findMostProlificAuthors(int minBookCount) {
+    public Result<? extends Record> findMostProlificAuthors(int minBookCount) {
         return dsl.select(
                 field("authors.first_name"),
                 field("authors.last_name"),
