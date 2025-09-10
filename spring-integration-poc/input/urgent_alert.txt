@@ -1,0 +1,6 @@
+URGENT: Critical system alert!
+This file contains urgent information that needs immediate processing.
+Priority: HIGH
+Department: IT Security
+Issue: Potential security breach detected at 2025-09-10T09:45:00
+

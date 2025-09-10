@@ -3,7 +3,6 @@ package org.example.springintegrationpoc.service;
 import org.springframework.integration.annotation.Filter;
 import org.springframework.integration.annotation.Router;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
@@ -69,10 +68,8 @@ public class MessageProcessor {
         System.out.println("File content length: " + content.length());
 
         // Transform file content
-        String processedContent = "=== PROCESSED FILE: " + fileName + " ===\n" +
-                                 "Original content:\n" + content + "\n" +
-                                 "=== Processing completed at: " + java.time.LocalDateTime.now() + " ===\n";
-
-        return processedContent;
+        return "=== PROCESSED FILE: " + fileName + " ===\n" +
+               "Original content:\n" + content + "\n" +
+               "=== Processing completed at: " + java.time.LocalDateTime.now() + " ===\n";
     }
 }
