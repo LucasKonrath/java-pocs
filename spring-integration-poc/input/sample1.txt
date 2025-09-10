@@ -1,0 +1,5 @@
+This is a sample file for testing Spring Integration file processing.
+The file contains some sample data that will be processed by the integration flow.
+Timestamp: 2025-09-10T10:00:00
+Message: Hello from file integration!
+
