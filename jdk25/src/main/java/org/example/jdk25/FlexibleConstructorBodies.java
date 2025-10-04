@@ -1,6 +1,6 @@
 package org.example.jdk25;
 
-public class FlexibleConsturctorBodies {
+public class FlexibleConstructorBodies {
 
     class Person {
         int age;
