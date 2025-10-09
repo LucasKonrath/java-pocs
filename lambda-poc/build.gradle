@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.graalvm.buildtools.native' version '0.10.6'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+description = 'lambda-poc'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.5'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Produce a single fat jar for AWS Lambda deployment
+// The resulting file will be at build/libs/lambda-poc-0.0.1-SNAPSHOT-all.jar
+tasks.named('shadowJar') {
+    archiveClassifier.set('all')
+}
+
+// Make sure building the project also produces the shaded jar
+tasks.named('build') {
+    dependsOn tasks.named('shadowJar')
+}
+
+artifacts {
+    archives tasks.named('shadowJar')
+}
+
+// Keep default Boot tasks; use shadowJar artifact for Lambda uploads
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
