@@ -23,12 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    }
-
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
         return new InMemoryUserDetailsManager(
@@ -58,7 +52,7 @@ public class SecurityConfig {
     // Chain 1: API with JWT - stateless
     @Bean
     @Order(1)
-    public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain apiFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         http
             .securityMatcher("/api/**")
             .csrf(csrf -> csrf.disable())
@@ -87,4 +81,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
