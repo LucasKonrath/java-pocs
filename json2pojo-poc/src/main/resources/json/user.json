@@ -1,0 +1,24 @@
+{
+  "id": 123,
+  "username": "luna",
+  "email": "luna@example.com",
+  "profile": {
+    "displayName": "Luna D.",
+    "birthday": "1993-05-14",
+    "address": {
+      "street": "42 Galaxy Way",
+      "city": "São Paulo",
+      "country": "Brazil",
+      "postalCode": "01234-567"
+    }
+  },
+  "roles": [
+    "ADMIN",
+    "USER"
+  ],
+  "preferences": {
+    "theme": "dark",
+    "newsletterOptIn": true,
+    "favoriteNumbers": [3, 7, 21]
+  }
+}

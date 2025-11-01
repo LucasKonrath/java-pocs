@@ -49,7 +49,7 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    // Chain 1: API with JWT - stateless
+    // Chain 1: JWT - Stateless
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
@@ -67,7 +67,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Chain 2: default web - stateful basic auth just as a contrast
+    // Chain 2: stateful basic auth
     @Bean
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
