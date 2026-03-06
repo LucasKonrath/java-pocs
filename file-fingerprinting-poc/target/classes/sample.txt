@@ -1,0 +1,3 @@
+This is a sample file for the file fingerprinting POC.
+The content of this file will be used to generate a SHA-256 hash.
+Any change in this file will result in a different hash.
