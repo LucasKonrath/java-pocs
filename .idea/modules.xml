@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/bean-post-processor/bean-post-processor.iml" filepath="$PROJECT_DIR$/bean-post-processor/bean-post-processor.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/java-pocs.iml" filepath="$PROJECT_DIR$/.idea/java-pocs.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-setter-constructor-injection/spring-setter-constructor-injection.iml" filepath="$PROJECT_DIR$/spring-setter-constructor-injection/spring-setter-constructor-injection.iml" />
     </modules>
