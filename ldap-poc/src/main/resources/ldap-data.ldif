@@ -1,0 +1,67 @@
+dn: dc=example,dc=org
+objectClass: top
+objectClass: domain
+dc: example
+
+dn: ou=people,dc=example,dc=org
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=example,dc=org
+objectClass: organizationalUnit
+ou: groups
+
+dn: uid=john.doe,ou=people,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: John Doe
+sn: Doe
+uid: john.doe
+mail: john.doe@example.org
+userPassword: password123
+title: Senior Developer
+telephoneNumber: +55 11 99999-0001
+
+dn: uid=jane.smith,ou=people,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Jane Smith
+sn: Smith
+uid: jane.smith
+mail: jane.smith@example.org
+userPassword: password456
+title: Tech Lead
+telephoneNumber: +55 11 99999-0002
+
+dn: uid=bob.wilson,ou=people,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Bob Wilson
+sn: Wilson
+uid: bob.wilson
+mail: bob.wilson@example.org
+userPassword: password789
+title: DevOps Engineer
+telephoneNumber: +55 11 99999-0003
+
+dn: cn=developers,ou=groups,dc=example,dc=org
+objectClass: groupOfNames
+cn: developers
+member: uid=john.doe,ou=people,dc=example,dc=org
+member: uid=jane.smith,ou=people,dc=example,dc=org
+
+dn: cn=devops,ou=groups,dc=example,dc=org
+objectClass: groupOfNames
+cn: devops
+member: uid=bob.wilson,ou=people,dc=example,dc=org
+
+dn: cn=admins,ou=groups,dc=example,dc=org
+objectClass: groupOfNames
+cn: admins
+member: uid=jane.smith,ou=people,dc=example,dc=org
